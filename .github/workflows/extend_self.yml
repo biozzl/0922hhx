@@ -1,0 +1,22 @@
+name: 'HaxExtend'
+
+on:
+#  push:
+  schedule:
+    # run every 3 days on UTC 0/1/2am (8/9/10am CN time)
+     - cron: '0 1 */2 * *'
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  extend_hax_in_self:
+    runs-on: self-hosted
+    steps:
+      - name: "run"
+        run: |
+          docker pull ghcr.io/lyj0309/hax_extend:latest
+          docker run -e USERNAME=${{ secrets.USERNAME }} \
+          -e PASSWORD=${{ secrets.PASSWORD }} \
+          -e TWOCAPTCHA_TOKEN=${{ secrets.TWOCAPTCHA_TOKEN }} \
+          -e HOST=hax.co.id \
+          ghcr.io/lyj0309/hax_extend:latest
